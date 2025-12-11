@@ -138,4 +138,5 @@ server.on("listening", () => {
   console.log(chalk.green(`🌍 Server is running on http://localhost:${PORT}`));
 });
 
-server.listen({ port: PORT });
+// Bind to all interfaces so the app is reachable from the container/host
+server.listen({ port: PORT, host: "0.0.0.0" });
