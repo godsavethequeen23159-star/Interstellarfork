@@ -102,6 +102,15 @@ const routes = [
   { path: "/", file: "index.html" },
 ];
 
+// Health-check endpoint
+app.get("/healthz", (_req, res) => {
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json"), "utf8"));
+    res.json({ status: "ok", uptime: process.uptime(), version: pkg.version });
+  } catch (err) {
+    res.status(500).json({ status: "error", error: err.message });
+  }
+});
 // biome-ignore lint: idk
 routes.forEach(route => {
   app.get(route.path, (_req, res) => {
